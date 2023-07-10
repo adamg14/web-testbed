@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Usecase</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Add Usecase</h1>
+    <div class="alert alert-danger" role="alert" hidden id="validationDiv">
+        <p id="validationMessage"></p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" onsubmit="return addUsecaseFormValidation()" action=<% postRoute %>>
+        <h3>Enter Usecase Details</h3>
+        
+        <div class="form-group">
+            <label for="projectFolderUpload">Upload Project .zip file here</label>
+            <input type="file" class="form-control-file" name="projectFolderUpload" id="projectFolderUpload" accept=".zip" required>
+        </div>
+
+        <div class="form-group">
+            <label for="testingfilePath">Code subdirectory name relative to the uploaded .zip folder</label>
+            <input type="text" name="testingfilePath" id="testingfilePath" placeholder="code" required>
+        </div>
+
+        <div class="form-group">
+            <label for="commands">Commands
+                <ul>
+                    <li>Enter | between commands without spaces</li>
+                    <li>Single quotes to indicate file name</li>
+                    <li>Define full route from project for file command line arguments e.g. '/images/img1.png' for MAC or '\images\img1.png' for Windows.</li>
+                </ul>
+            </label>
+            <textarea name="commands" id="commands" cols="30" rows="5" class="form-control" placeholder="python 'test.py' '/images/image1.png 1|python 'code/test.py' 1" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Add Usecase</button>
+        </div>
+    </form>
+
+
+    <script>
+        function addUsecaseFormValidation(){
+            let testingfilePathInput = document.getElementById("testingFilePath");
+            let commandsInput = document.getElementById("commands");
+
+            if(testingfilePathInput.includes("$") || testingfilePathInput.includes("{") || testingfilePathInput.toLowerCase().includes("<script") || testingfilePathInput.includes("onError") || testingfilePathInput.toLowerCase().includes("<img") || testingfilePathInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the testing file path field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else if(commandsInput.includes("$") || commandsInput.includes("{") || commandsInput.toLowerCase().includes("<script") || commandsInput.includes("onError") || commandsInput.toLowerCase().includes("<img") || commandsInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the commands field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>

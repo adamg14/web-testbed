@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Project and Usecase</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- need to make sure all of this is required -->
+    <!-- css in the other project was much better -->
+    <div class="container">
+        <h1>Project Details</h1>
+
+        <div class="alert alert-danger" role="alert" hidden id="validationDiv">
+            <p id="validationMessage"></p>
+        </div>
+
+        <form action="/projects/new" method="post" enctype="multipart/form-data" id="staffUploadForm" onsubmit="return staffUploadFormValidation()">
+            <h3>Add Project</h3>
+            <hr>
+            <div class="form-group">
+                <label for="projectName">Project Name</label>
+                <input type="text" class="form-control" id="projectName" name="projectName" required minlength="8" maxlength="30">
+            </div>
+
+            <div class="form-group">
+                <label for="projectDescription">Project Description</label>
+                <textarea name="projectDescription" id="projectDescription" cols="30" rows="10" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="programmingLanguage">Programming Language</label>
+                <select name="programmingLanguage" id="programmingLanguage" required>
+                    <option value=".py">Python</option>
+                    <option value=".java">Java</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="programminLanguageVersion">Programming Language Version</label>
+                <select name="programmingLanguageVersion" id="programmingLanguageVersion">
+                    <option value="python-3.8">Python 3.8</option>
+                    <option value="python-3.9">Python 3.9</option>
+                    <option value="python-3.10">Python 3.10</option>
+                    <option value="java-14.1">Java 14</option>
+                    <option value="java-17.1">Java 17</option>
+                    <option value="java-19.1">Java 19</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="namingConvention">Names of the files the student must upload</label>
+                <ul>
+                    <li>Separate the names with a | without any spaces</li>
+                    <li>Add the appropriate extention (.py or .java)</li>
+                    <li>Example: Task_1_5.py|Task_2.py</li>
+                    <li>Note: for java projects all files in the directory(student then staff) need to be listed so that they can all be compiled.</li>
+                </ul>
+                <textarea name="namingConvention" id="namingConvention" cols="30" rows="10" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="numberOfFiles">Number of files (tasks) to be uploaded by students</label>
+                <input type="number" name="numberOfFiles" id="numberOfFiles" min="1" max="10" required>
+            </div>
+
+            <h3>Add usecase</h3>
+            <hr>
+
+            <div class="form-group">
+                <label for="projectFolderUpload">Upload .zip file here</label>
+                <input type="file" class="form-control-file" id="projectFolderUpload" name="projectFolderUpload" accept=".zip" required>
+            </div>
+            
+            <div class="form-group">
+                <!-- testing file relative to the uploaded .zip folder -->
+                <!-- i could give an example to the user for better usability -->
+                <label for="testingfilePath">Code subdirectory name relative to the uploaded .zip folder</label>
+                <input type="text" name="testingfilePath" id="testingfilePath" placeholder="code" required>
+            </div>
+            <!-- commands - there will be multiple of them -->
+            <!-- stored in an array in the database potentially -->
+            <div class="form-group">
+                <label for="commands">Commands 
+                    <ul>
+                        <li>Enter | between the commands without spaces</li>
+                        <li>Single quotes to indicate file name</li>
+                        <li>Define full route from project for file command line arguments e.g. '/images/img1.png' MAC or '\images\img1.png' for Windows.</li>
+                    </ul>
+                </label>
+                <textarea name="commands" id="commands" cols="30" rows="5" class="form-control" placeholder="python 'test.py' '/image/image1.png' 1|python 'code/test.py' 1" required></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Create Project</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function staffUploadFormValidation(){
+            let projectNameInput = document.getElementById("projectName").value;
+            let projectDescriptionInput = document.getElementById("projectDescription").value;
+            let namingConventionInput = document.getElementById("namingConvention").value;
+            let testingfilePathInput = document.getElementById("testingfilePath").value;
+            let commandsInput = document.getElementById("commands").value;
+            let programmingLanguageInput = document.getElementById("programmingLanguage").value;
+            let programmingLanguageVersionInput = document.getElementById("programmingLanguageVersion").value;
+            let numberOfFilesInput = document.getElementById("numberOfFiles").value;
+
+            let namingConventionArray = namingConventionInput.split("|");
+            let commandsArray = namingConventionArray.split("|");
+
+            if(projectNameInput.includes("$") || projectNameInput.includes("{") || projectNameInput.toLowerCase().includes("<script") || projectNameInput.includes("onError") || projectNameInput.toLowerCase().includes("<img") || projectNameInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the project name field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else if(projectDescriptionInput.includes("$") || projectDescriptionInput.includes("{") || projectDescriptionInput.toLowerCase().includes("<script") || projectDescriptionInput.includes("onError") || projectDescriptionInput.toLowerCase().includes("<img") || projectDescriptionInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the project description field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else if(namingConventionInput.includes("$") || namingConventionInput.includes("{") || namingConventionInput.toLowerCase().includes("<script") || namingConventionInput.includes("onError") || namingConventionInput.toLowerCase().includes("<img") || namingConventionInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the naming convention field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else if(testingfilePathInput.includes("$") || testingfilePathInput.includes("{") || testingfilePathInput.toLowerCase().includes("<script") || testingfilePathInput.includes("onError") || testingfilePathInput.toLowerCase().includes("<img") || testingfilePathInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the testing file path field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else if(commandsInput.includes("$") || commandsInput.includes("{") || commandsInput.toLowerCase().includes("<script") || commandsInput.includes("onError") || commandsInput.toLowerCase().includes("<img") || commandsInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the commands field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else if(
+                (programmingLanguageInput === ".java") && (programmingLanguageVersionInput === "python-3.8" || programmingLanguageVersionInput === "python-3.9" || programmingLanguageVersionInput === "python-3.10")
+            ){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "Programming Language does not match the programming language version. Java projects must have a java version."
+                return false;
+            }else if(
+                (programmingLanguageInput === ".py") && (programmingLanguageVersionInput === "java-14.1" || programmingLanguageVersionInput === "java-17.1" || programmingLanguageVersionInput === "java-19.1")
+            ){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "Programming Language does not match the programming language version. Python projects must have a python version.";
+                return false;
+            }else if(programmingLanguageInput === ".java"){
+                // i need to check if this works
+                for (let i = 0; i < namingConventionArray.length; i++){
+                    // if any of the student file names do not include the extention of the project's programming language
+                    if (namingConventionArray[0].includes(".java") === false){
+                        document.getElementById("validationDiv").removeAttribute("hidden");
+                        document.getElementById("validationMessage").innerHTML = "Error in naming convention field. In a java project, all the student file names must have the .java extention";
+                        return false;
+                    }
+
+                    if(namingConventionArray[0].includes("java") === false){
+                        document.getElementById("validationDiv").removeAttribute("hidden");
+                        document.getElementById("validationMessage").innerHTML = "Error in the commands field. Each of the commands in a Java project must contain the 'java' key word.";
+                        return false;
+                    }
+
+                    return true;
+                }
+                return true;
+            }else if(programmingLanguageInput === ".py"){
+                // if any of the student file names do not include the extention of the project's programming language
+                for (let i = 0; i < namingConventionArray.length; i++){
+                    if(namingConventionArray[0].includes(".py") === false){
+                        document.getElementById("validationDiv").removeAttribute("hidden");
+                        document.getElementById("validationMessage").innerHTML = "Error in naming convention field. In a python project, all the student file names must have the .py extention";
+                        return false;
+                    }
+                }
+
+                for(let i = 0; i < commandsArray.length; i++){
+                    if (commandsArray[0].includes("python") === false){
+                        document.getElementById("validationDiv").removeAttribute("hidden");
+                        document.getElementById("validationMessage").innerHTML = "Error in the commands field. Each of the commands in a Python project must contain the 'python' key word.";
+                        return false;
+                    }
+                }
+                return true;
+            }else{
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>

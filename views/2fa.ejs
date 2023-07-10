@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2FA</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+    <h1>2 Factor Authentication</h1>
+
+    <div class="alert alert-warning" role="alert" id="validationDiv" hidden>
+        <p id="validationMessage"></p>
+    </div>
+
+    <form action="/2FA" method="post" onsubmit="return validation2FA()">
+        <label for="2FA-code">Enter 2-Factor Authentication code</label>
+        <input type="text" name="staffCode" id="staffCode" placeholder="2FA Code">
+        <ul>
+            <li>2FA Code sent to your email.</li>
+            <li>This may take up to a few minutes.</li>
+            <li>Do not share this code with anyone else.</li>
+        </ul>
+        <button type="submit" class="btn btn-primary">Submit 2FA code</button>
+    </form>
+
+    <script>
+        function validation2FA(){
+            let staffCodeInput = document.getElementById("staffCode").value;
+            if(staffCodeInput.includes("<script") || (staffCodeInput.includes("{") && staffCodeInput.includes("$") && staffCodeInput.includes("}") && staffCodeInput.includes(`"`) && staffCodeInput.includes("&")) || staffCodeInput.includes("img") || staffCodeInput.includes("alert") || staffCodeInput.includes("onError")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "Potential XSS attempt/SQL Injection detected in the 2-factor authentication code field. Remove script tags, {, $and & symbols. Also remove words 'alert' and 'onError', these are synonymous to XSS attacks. If this is a valid code, log in again with to receive a different code.";
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>

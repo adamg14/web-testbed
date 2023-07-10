@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Project</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <h1>Edit Project</h1>
+    <h3><%= project.projectDescription %></h3>
+    <div class="alert alert-danger" role="alert" id="validationDiv" hidden>
+        <p id="validationMessage"></p>
+    </div>
+    <form method="post" onsubmit="return editProjectFormValidation()" action=<%=postRoute %>>
+
+        <div class="form-group">
+            <label for="projectName">Project Name</label>
+            <input type="text" class="form-control" id="projectName" name="projectName" required minlength="8" maxlength="30" placeholder=<%=project.projectName %>>
+        </div>
+
+        <div class="form-group">
+            <label for="projectDescription">Project Description</label>
+            <textarea name="projectDescription" id="projectDescription" cols="30" rows="10" required placeholder=<%= project.projectDescription %>></textarea>
+        </div>
+
+        <div class="form-group">
+                <label for="programmingLanguage">Programming Language</label>
+                <select name="programmingLanguage" id="programmingLanguage" required>
+                    <option value=".py">Python</option>
+                    <option value=".java">Java</option>
+                </select>
+        </div>
+
+        <div class="form-group">
+                <label for="programminLanguageVersion">Programming Language Version</label>
+                <select name="programmingLanguageVersion" id="programmingLanguageVersion">
+                    <option value="python-3.8">Python 3.8</option>
+                    <option value="python-3.9">Python 3.9</option>
+                    <option value="python-3.10">Python 3.10</option>
+                    <option value="java-14.1">Java 14</option>
+                    <option value="java-17.1">Java 17</option>
+                    <option value="java-19.1">Java 19</option>
+                </select>
+        </div>
+
+        <div class="form-group">
+                <label for="namingConvention">Names of the files the student must upload</label>
+                <ul>
+                    <li>Separate the names with a | without any spaces</li>
+                    <li>Add the appropriate extention (.py or .java)</li>
+                    <li>Example: Task_1_5.py|Task_2.py</li>
+                    <li>Note: for java projects all files in the directory(student then staff) need to be listed so that they can all be compiled.</li>
+                </ul>
+                <textarea name="namingConvention" id="namingConvention" cols="30" rows="10" required placeholder=<%= project.namingConvention %>></textarea>
+        </div>
+
+        <div class="form-group">
+                <label for="numberOfFiles">Number of files (tasks) to be uploaded by students</label>
+                <input type="number" name="numberOfFiles" id="numberOfFiles" min="1" max="10" required>
+        </div>
+
+        <div class="form-group">
+            <button type="Submit" class="btn btn-primary">Edit Project</button>
+        </div>
+    </form>
+        <script>
+            function editProjectFormValidation(){
+            let projectNameInput = document.getElementById("projectName").value;
+            let projectDescriptionInput = document.getElementById("projectDescription").value;
+            let namingConventionInput = document.getElementById("namingConvention").value;
+            let programmingLanguageInput = document.getElementById("programmingLanguage").value;
+            let programmingLanguageVersionInput = document.getElementById("programmingLanguageVersion").value;
+            let numberOfFilesInput = document.getElementById("numberOfFiles").value;
+
+            let namingConventionArray = namingConventionInput.split("|");
+            let commandsArray = namingConventionArray.split("|");
+
+            if(projectNameInput.includes("$") || projectNameInput.includes("{") || projectNameInput.toLowerCase().includes("<script") || projectNameInput.includes("onError") || projectNameInput.toLowerCase().includes("<img") || projectNameInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the project name field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else if(projectDescriptionInput.includes("$") || projectDescriptionInput.includes("{") || projectDescriptionInput.toLowerCase().includes("<script") || projectDescriptionInput.includes("onError") || projectDescriptionInput.toLowerCase().includes("<img") || projectDescriptionInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the project description field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else if(namingConventionInput.includes("$") || namingConventionInput.includes("{") || namingConventionInput.toLowerCase().includes("<script") || namingConventionInput.includes("onError") || namingConventionInput.toLowerCase().includes("<img") || namingConventionInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the naming convention field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else if(
+                (programmingLanguageInput === ".java") && (programmingLanguageVersionInput === "python-3.8" || programmingLanguageVersionInput === "python-3.9" || programmingLanguageVersionInput === "python-3.10")
+            ){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "Programming Language does not match the programming language version. Java projects must have a java version."
+                return false;
+            }else if(
+                (programmingLanguageInput === ".py") && (programmingLanguageVersionInput === "java-14.1" || programmingLanguageVersionInput === "java-17.1" || programmingLanguageVersionInput === "java-19.1")
+            ){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "Programming Language does not match the programming language version. Python projects must have a python version.";
+                return false;
+            }else{
+                return true;
+            }
+        }
+        </script>
+</body>
+
+</html>

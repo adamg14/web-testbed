@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Install Package</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Install Python Package</h1>
+
+    <div class="alert alert-danger" role="alert" id="validationDiv" hidden>
+        <p id="validationMessage"></p>
+    </div>
+
+    <form action="/staff/install-package" method="post" id="installPackageForm" onsubmit="return installPackageValidation()" enctype="application/x-www-form-urlencoded">
+        <div class="form-group">
+            <label for="packageName">pip install</label>
+            <input type="text" id="packageName" name="packageName" required class="form-control" placeholder="Package Name">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Install Package</button>
+            <br>
+            <a href="/staff-dashboard">Back to Staff Dashboard</a>
+        </div>
+    </form>
+
+    <script>
+        function installPackageValidation(){
+            let packageNameInput = document.getElementById("packageName").value;
+            if (packageNameInput.includes("$") || packageNameInput.includes("{") || packageNameInput.toLowerCase().includes("<script") || packageNameInput.includes("onError") || packageNameInput.toLowerCase().includes("<img") || packageNameInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the package name field. Please remove the characters: $ and {. Also, remove any html tags and javascript code from your input.";
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>

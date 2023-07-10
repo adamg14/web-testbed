@@ -1,0 +1,20 @@
+MONGODB_PASSWORD="UdzGMhfc8bXmI7mt"
+SECRET_KEY="dSgVkYp3s6v8y/B?E(H+MbQeThWmZq4t7w!z$C&F)J@NcRfUjXn2r5u8x/A?D*G-"
+# MAC path syntax: /path/
+# WINDOWS path syntax: c:\path\
+# Uncomment the following lines define the FULL path to python and pip on python versions 3.8, 3.9, 3.10
+# If you do not require python/java to be run on a particular version you can define the variables to the keywords: python, pip, java, javac. Which will run the code on your default version of python/java
+# PATH_TO_PYTHON38='/path/to/python'
+# PATH_TO_PYTHON39=''
+# PATH_TO_PYTHON310=''
+# PATH_TO_PIP38='/path/to/pip'
+# PATH_TO_PIP39=''
+# PATH_TO_PIP310=''
+
+# Uncomment the following lines to define the FULL path to the java and javac files on java version14,17,19
+# PATH_TO_JAVA14='c:\path\to\java'
+# PATH_TO_JAVA17=''
+# PATH_TO_JAVA19=''
+# PATH_TO_JAVAC14='C:\path\to\javac'
+# PATH_TO_JAVAC17=''
+# PATH_TO_JAVAC19=''

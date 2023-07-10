@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Projects</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Projects</h1>
+    <!-- code adapted from example given in: -->
+    <!-- https://www.w3schools.com/bootstrap/bootstrap_navbar.asp -->
+    <!-- *****code start*****  -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="/student/projects" class="navbar-brand">Order Projects By</a>
+            </div>
+            <ul class="nav">
+                <li class="nav-item"><a href="/student/projects" class="link-primary nav-link">Default</a></li>
+                <li class="nav-item"><a href="/student/projects/python" class="link-primary nav-link">Python</a></li>
+                <li class="nav-item"><a href="/student/projects/java" class="link-primary nav-link">Java</a></li>
+                <li class="nav-item"><a href="/student/projects/datedesc" class="link-primary nav-link">Date Descending</a></li>
+                <li class="nav-item"><a href="/student/projects/dateasc" class="link-primary nav-link">Date Ascending</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- *****code end***** -->
+
+    <% for (let i = 0; i < Projects.length ; i++) { %>
+        <hr>
+        <form action="/student/projects" method="post">
+            <h1><%= Projects[i].projectName %></h1>
+            <p><b>Project Description: </b><%= Projects[i].projectDescription %></p>
+            <p><b>Programming Language: </b><%= Projects[i].programmingLanguage %> </p>
+            <p><b>ProgrammingLanguage Version: </b><%= Projects[i].programmingLanguageVersion %></p>
+            <input type="hidden" name="projectSelected" value=<%= Projects[i].projectId%>>
+            <button type="submit" class="btn btn-primary">Select Project</button>
+        </form>
+        <hr>
+    <% } %>
+</body>
+</html>

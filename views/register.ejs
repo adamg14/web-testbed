@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Register</h1>
+
+    <!-- alert for validation -->
+    <div class="alert alert-danger" id="validationDiv" hidden>
+        <p id="validationMessage"></p>
+    </div>
+
+    <form action="/register" method="post" onsubmit="return staffRegisterValidation()">
+        <div class="form-group">
+            <label for="staffEmail" class="form-label">Email</label>
+            <input type="text" id="staffEmail" name="staffEmail" class="form-control" placeholder="Email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="staffPassword">Password</label>
+            <input type="password" class="form-control" id="staffPassword" name="staffPassword" placeholder="Password" required>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary">Register</button>
+            <br>
+            <a href="/staff-home">Back to Staff Home</a>
+        </div>
+    </form>
+
+    <script>
+        function staffRegisterValidation(){
+            let staffEmailInput = document.getElementById("staffEmail").value;
+            let staffPasswordInput = document.getElementById("staffPassword").value;
+
+            if(staffEmailInput.includes("$") || staffEmailInput.includes("{") || staffEmailInput.toLowerCase().includes("<script") || staffEmailInput.includes("onError") || staffEmailInput.toLowerCase().includes("<img") || staffEmailInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the email field. Please remove the characters: $ and {. An remove any html tags and javascript code from your input.";
+                return false;
+            }else if(staffPasswordInput.includes("$") || staffPasswordInput.includes("{") || staffPasswordInput.toLowerCase().includes("<script") || staffPasswordInput.includes("onError") || staffPasswordInput.toLowerCase().includes("<img") || staffPasswordInput.toLowerCase().includes("alert")){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "XSS or SQL attempt detected in the password field. Please remove the characters: $ and {. An remove any html tags and javascript code from your input.";
+                return false;
+            }else if(staffPasswordInput.length < 8){
+                document.getElementById("validationDiv").removeAttribute("hidden");
+                document.getElementById("validationMessage").innerHTML = "Password must be at least 8 characters.";
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>

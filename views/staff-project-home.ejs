@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Project</h1>
+
+    <div class="card bg-light">
+        <div class="card-header"><h2><%= Project.projectName %></h2></div>
+        <div class="card-body">
+            <p><%= Project.projectDescription %></p>
+            <form action="/staff/projects/add-usecase" method="post">
+                <input type="text" hidden name="projectId" value=<%= Project.projectId %>>
+                <button class="btn btn-primary">Add Usecase</button>
+            </form>
+            <br>
+            <form action="/staff/projects/edit" method="post">
+                <input type="text" hidden name="projectId" value=<%= Project.projectId %>>
+                <button class="btn btn-secondary" type="submit">Edit Project</button>
+            </form>
+            <br>
+            <form action="/staff/projects/delete" method="post">
+                <input type="text" hidden name="projectId" value=<%= Project.projectId %>>
+                <button type="submit" class="btn btn-danger">Delete Project</button>
+            </form>
+        </div>
+    </div>
+
+    <br>
+
+    <% for(let i = 0; i < Project.usecases.length; i++) { %>
+        <div class="card bg-light">
+            <div class="card-header"><h2>Usecase <%= i + 1%></h2></div>
+            <div class="card-body">
+                <form action="/staff/projects/usecase/delete" method="post">
+                    <input type="text" name="projectId" hidden value=<%= Project.projectId %>>
+                    <input type="text " hidden name="usecaseId" value=<%= Project.usecases[i].usecaseId %>>
+                    <button type="submit" class="btn btn-danger">Delete Usecase</button>
+                </form>
+            </div>
+        </div>
+        <br>
+    <% } %>
+</body>
+</html>

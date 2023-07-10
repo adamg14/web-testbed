@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation Result</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Installation Result</h1>
+    <h3>Python 3.8</h3>
+    <p class="codeOutput"><%= installationResult[0].installOutput %></p>
+    <p class="codeError"><%= installationResult[0].installError %></p>
+    <h3>Python 3.9</h3>
+    <p class="codeOutput"><%= installationResult[1].installOutput %></p>
+    <p class="codeError"><%= installationResult[1].installError %></p>
+    <h3>Python 3.10</h3>
+    <p class="codeOutput"><%= installationResult[2].installOutput %></p>
+    <p class="codeError"><%= installationResult[2].installError %></p>
+    <a href="/staff-dashboard"><button class="btn btn-primary">Staff Dashboard</button></a>
+</body>
+</html>

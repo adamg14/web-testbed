@@ -1,0 +1,28 @@
+h1 {
+    text-align: center;
+}
+
+form {
+    align-items: center;
+}
+
+.codeOutput{
+    color: green;
+}
+
+.codeError{
+    color: red
+}
+
+.project-name{
+    text-align: center;
+}
+
+.card-body{
+    margin-bottom: 2%;
+}
+
+.project-card{
+    margin-bottom: 3%;
+    margin-top: 3%;
+}

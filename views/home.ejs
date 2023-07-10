@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Programming Project Testbed</h1>
+    </div>
+
+    <!-- https://getbootstrap.com/docs/4.0/layout/grid/ -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <!-- https://getbootstrap.com/docs/4.0/components/card/ -->
+                <div class="card bg-light">
+                    <div class="card-header">Student Features</div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Projects uploaded by staff available on the testbed.</li>
+                            <li>Upload Python or Java projects.</li>
+                            <li>Your programs tested against teacher's parameters.</li>
+                            <li>Output of tests displayed to you.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm">
+                <!-- https://getbootstrap.com/docs/4.0/components/card/ -->
+                <div class="card bg-light">
+                    <div class="card-header">Staff Features</div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Register/Login and 2FA required to </li>
+                            <li>Add projects that will be visable to all students.</li>
+                            <li>Upload .zip file usecases for projects.</li>
+                            <li>Usecase file will NOT be able to be viewed by students.</li>
+                            <li>Staff are able to edit and delete their projects.</li>
+                            <li>Ability to edit and delete projects. Students will no longer be able to see deleted projects.</li>
+                            <li>Ability to delete Usecases. Students will no longer be able to see deleted projects.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+    <!-- code adapted from example given in: -->
+    <!-- https://www.w3schools.com/bootstrap/bootstrap_navbar.asp -->
+    <!-- *****code start*****  -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">Web Programming Testbed Home</a>
+            </div>
+            <ul class="nav">
+                <li class="nav-item"><a href="/student/projects" class="link-primary nav-link">Student Portal</a></li>
+                <li class="nav-item"><a href="/staff-home" class="link-primary nav-link">Staff Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- *****code end***** -->
+    
+    </div>
+</body>
+</html>

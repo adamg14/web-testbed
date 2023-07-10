@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Output</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Code Results</h1>
+
+    <% for (let i = 0 ; i < studentOutput.length; i++){ %>
+        <h3>Command <%= i + 1%></h3>
+        <h3>Output <%= i + 1%></h3>
+        <p class="codeOutput"><%= studentOutput[i].output %></p>
+        <br>
+        <h3>Error <%= i + 1%></h3>
+        <p class="codeError"><%= studentOutput[i].error %></p>
+        <br>
+    <% } %>
+</body>
+</html>
