@@ -1,6 +1,6 @@
 # web-testbed
 Educational Java and Python Web Testbed
-ake sure that the 'new-upload' directory is installed and unzipped on your machine
+make sure the contents of this respository is installed and unzipped on your machine
 1. Download node.js on your computer (version 16+). https://nodejs.org/en/download.
 2. On the termial: type 'node -v' to check if node has downloaded and the version
 3. On terminal/command prompt and go within the 'new-upload' directory. Make sure the node_modules directory within 'new-upload' is deleted. Enter the command 'npm install' in the command prompt to install the dependencies needed by the project, a new node_modules directory should appear in the 'new-upload' directory.
