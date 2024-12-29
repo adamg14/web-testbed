@@ -23,15 +23,14 @@ To do this:
     - Go into the subdirectory of the project that you have just added (the newest made subdirectory).
     - Go into the subdirectory of the usecase that you have just added (the newest made subdirectory again).
     - Here you will see the project code that you have updated, go into all the static files and update the routes which will need to be changed to reflect their routes on the server.
-    - When redefining the routes they must be full routes, including the routes of the primary key of the project and usecase
-    GIVE AN EXAMPLE:
+    - When redefining the routes they must be full routes, including the routes of the primary key of the project and usecase:
     ORIGINAL PATH: ../Images/Student_Test/generated.photos_v3_0626369.jpg,Female,Female
     UPDATED PATH: /Users/adam/Documents/new-upload/projects/lgryz5b001pi9d006297k3jr/lgryz5b001pi9d006297kaic/Testy/Images/Student_Test/generated.photos_v3_0626369.jpg,Female,Female
 
 For adding projects on a windows machine, there will be the project directory and the zip files with the same name. This will happen when the staff upload is unzipped. The zip file needs to be deleted.
     In the projects subdirectory of the 'new-upload' directory, go to the newest made subdirectory (the newest made project).
     In this subdirectory, go to the newest directory again (the newest made usecase). In this subdirectory, the staff upload will reside (both the zipped and unzipped version). For the staff upload to work the zipped version
-    e.g. ORIGINAL USECASE DIRECTORY CONTENT:
+    e.g.:
     - staff-upload/
     - staff-upload.zip
     UPDATED USECASE DIRECTORY CONTENT:
