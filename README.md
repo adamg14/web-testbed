@@ -1,39 +1,100 @@
-# web-testbed
-Educational Java and Python Web Testbed
-make sure the contents of this respository is installed and unzipped on your machine
-1. Download node.js on your computer (version 16+). https://nodejs.org/en/download.
-2. On the termial: type 'node -v' to check if node has downloaded and the version
-3. On terminal/command prompt and go within the 'new-upload' directory. Make sure the node_modules directory within 'new-upload' is deleted. Enter the command 'npm install' in the command prompt to install the dependencies needed by the project, a new node_modules directory should appear in the 'new-upload' directory.
-7. Create a '.env' file in the 'new-upload' and define the environment variables that are defined within the 'environment_variables.txt' file within the 'new-upload' directory. Follow the instructions in this text file to define the environment variables in the .env file. There are variables already defined in the file, copy these into the newly created .env file. The paths to javac/java/pip/python needed to be updated with the paths on the machine you are running the server on. 
-8. Enter the command 'node index.js'/'npm start' to start the server
-9. Once this command is run, you should see 'server listening on port 3000' in the command line
-10. At any time, or if an unexpected error has occurred, command/ctrl + c at the command line to stop the running of the server and run the command in step 6 to restart the server.
-11. Optionally, run the command 'npm test' to run the test scripts that contain the unit tests. Some editing may need to be done to the tests to make sure they run. This command may have to be re-run for the tests to be passed as they may go over the time limit set by mocha. 
+# Web Testbed
+Educational Python and Java Web Testbed
 
-IMPORTANT NOTES:
-Projects already loaded on the server will not work on your machine due to the incommatability of the paths stored in the MongoDB database.
+An educational platform facilitating seamless interaction betwwn lecturers and students. Lecturers can post projects (including Java and Python tasks) with corresponding test scripts, and students can upload their code for automated evaluation feedback.
 
-Staff upload files should not be within the server directory - must be uploading a zip file which is located in separate directory
+## Introduction
+This web testbed is designed to automated the process of distributing intermediate feedback on submissions. It works with both Java and Python code, with a range of versions. Lecturers can create new projects and attach test scripts; student can submit their solutions, receiving immediate feedback on correctness and functionality. 
 
-Any unexpected problems occur. Try restarting the server. Ctrl/Command C in command line and then re run the server
+## Features 
+- __Lecturer Interface__: Upload new projects with associated Java/Python test scripts.
+- __Student Interface__:
+    - Browse available projects
+    - Submit code solutions (Python/Java) and receive automated test results.
+-__Automated Testing__: The two codes are simulataneously ran on the server.
+-__Security__:
+    - Student files immediately deleted after feedback
+    - Separate student/lecturer interface
+    - Password hashing and salting for secure authentication.
+    - Rate limiting to mitigate abuse.
 
-When adding a project and there are routes in static files such as .csv and .txt files, these routes need to be updated. Once the project and usecase have been succesffully added you will need to go into the server files to update these.
-To do this:
-    - Go into the projects subdirectory of the server directory.
-    - Go into the subdirectory of the project that you have just added (the newest made subdirectory).
-    - Go into the subdirectory of the usecase that you have just added (the newest made subdirectory again).
-    - Here you will see the project code that you have updated, go into all the static files and update the routes which will need to be changed to reflect their routes on the server.
-    - When redefining the routes they must be full routes, including the routes of the primary key of the project and usecase:
-    ORIGINAL PATH: ../Images/Student_Test/generated.photos_v3_0626369.jpg,Female,Female
-    UPDATED PATH: /Users/adam/Documents/new-upload/projects/lgryz5b001pi9d006297k3jr/lgryz5b001pi9d006297kaic/Testy/Images/Student_Test/generated.photos_v3_0626369.jpg,Female,Female
+## Technologies Used
+- __Backend__: Node.js, Express.js
+- __Frontend__: HTML, CSS, JavaScript
+- __Database__: MongoDB
+- __Authentication__: Passport.js
+- __Supported Assignment Language__: Java, Python
 
-For adding projects on a windows machine, there will be the project directory and the zip files with the same name. This will happen when the staff upload is unzipped. The zip file needs to be deleted.
-    In the projects subdirectory of the 'new-upload' directory, go to the newest made subdirectory (the newest made project).
-    In this subdirectory, go to the newest directory again (the newest made usecase). In this subdirectory, the staff upload will reside (both the zipped and unzipped version). For the staff upload to work the zipped version
-    e.g.:
-    - staff-upload/
-    - staff-upload.zip
-    UPDATED USECASE DIRECTORY CONTENT:
-    - staff-upload
+# Installation and Basic Setup
+1. Clone Repository
+```bash
+git clone https://github.com/adamg14/web-testbed.git
+cd web-testbed
+```
 
-Some of the unittests did not work when i went and tried to run it in the windows lab(the functionality of the web application still worked). Mainly the ones that invlove files which could be to do with file permissions. However the application still worked fine.
+2. Install Dependencies
+```bash
+npm install
+```
+
+3. Environment Variables
+```javascript
+PORT=3000
+MONGODB_URI=your_mongodb_connection_string
+SESSION_SECRET=your_random_session_secret
+PATH_TO_JAVA=/path/to/java
+PATH_TO_JAVAC=/path/to/javac
+PATH_TO_PYTHON=/path/to/python
+PATH_TO_PIP=/path/to/pip
+```
+
+4. Start the Server
+```bash
+npm start
+```
+
+5. Running Unit Tests (Optional)
+```bash
+npm test
+```
+Some tests may time out or fail on certain operating systems due to file permissions or path issues. Rerun if you encounter timeouts or adjust Mocha's default timeout settings in the test configuration.
+
+## Important Notes and Troubleshooting
+
+1. __Incompatible Paths for Existing Projects__
+    - Projects already loaded on one machine may not work on another due to               differing filesystem paths stored in the database.
+    - If a project references absolute paths (e.g., /Users/username/...), you must        update these to match your environment.
+    
+2. __Staff Upload Files__
+    - Must be uploaded as a ZIP file located outside the server’s own directory.
+    - The system automatically unzips this file within the projects/ subdirectory.
+
+3. __Updating Static File Routes__
+    - When a project is added, you might need to manually adjust certain file             references (e.g., .csv, .txt, or image paths) to ensure they are correct in         your local environment.
+    - Example:
+          - Original Path:                         ../Images/Student_Test/generated.photos_v3_0626369.jpg,Female,Female
+          - Update Path: /Users/adam/Documents/new-upload/projects/<project-id>/<usecase-id>/Testy/Images/Student_Test/generated.photos_v3_0626369.jpg,Female,Female
+   - Full absolute paths are sometimes required, including the project and usecase     IDs
+
+4. __Windows Machines__
+    - A staff-uploaded ZIP file can produce both a folder and a .zip file with the        same name.
+    - Delete the .zip if the folder has already been extracted; only the unzipped         folder is needed for the project to function.
+
+5. __Unit Test Issues__
+    - Some file-related tests may fail on Windows labs due to permission or path          differences.
+    - This usually does not affect the application's code functionality.
+
+6. __General Troubleshooting__
+    - If unexpected errors occur, stop the server with Ctrl + C or Command + C and        then restart.
+    - Double-check your .env paths to ensure they match your environment.
+
+## Project Structure
+Below is a general outline of some of the directories:
+- middleware/: Contains custom middleware functions.
+- models/: Contains database schemas and models.
+- projects/: Stores uploaded projects and scripts.
+- public/: Holds static assets (CSS, images, etc.).
+- test/: Test cases for the application logic.
+- views/: HTML templates rendered by the server.
+- environment_variables.txt: Reference for configuring .env.
+- index.js: Main entry point for starting the Node.js server.
